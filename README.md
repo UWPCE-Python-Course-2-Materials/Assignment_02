@@ -20,7 +20,8 @@ You can use *PDB*, *Pysnooper* or any other debugging techniques you like.
 
 ## Testing ``menu.py`` ##
 
-1. Load the users database.
+1. Load the users database. 
+<!-- done -->
 1. Add a new user and confirm you get a success message.
 1. Try to add the same user ID again and confirm you get an error message.
 1. Update the name of an existing user.

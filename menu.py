@@ -3,20 +3,24 @@ Provides a basic frontend
 '''
 import sys
 import main
+import logging
+import datetime
 
 
 def load_users():
     '''
     Loads user accounts from a file
     '''
+    logger.info("initializing load_user")
     filename = input('Enter filename of user file: ')
-    main.load_users(filename, user_selection)
+    main.load_users(filename, user_collection)
 
 
 def load_status_updates():
     '''
     Loads status updates from a file
     '''
+    logger.info("initializing load_status_updates")
     filename = input('Enter filename for status file: ')
     main.load_status_updates(filename, status_collection)
 
@@ -25,6 +29,7 @@ def add_user():
     '''
     Adds a new user into the database
     '''
+    logger.info("initializing add_user")
     user_id = input('User ID: ')
     email = input('User email: ')
     user_name = input('User name: ')
@@ -34,8 +39,10 @@ def add_user():
                          user_name,
                          user_last_name,
                          user_collection):
+        logger.warning("new user inputs not valid")
         print("An error occurred while trying to add new user")
     else:
+        logger.info("new user added successfully")
         print("User was successfully added")
 
 
@@ -43,6 +50,7 @@ def update_user():
     '''
     Updates information for an existing user
     '''
+    logger.info("initializing update_user")
     user_id = input('User ID: ')
     email = input('User email: ')
     user_name = input('User name: ')
@@ -57,9 +65,10 @@ def search_user():
     '''
     Searches a user in the database
     '''
+    logger.info("initializing search_user")
     user_id = input('Enter user ID to search: ')
     result = main.search_user(user_id, user_collection)
-    if not result.name:
+    if not result.user_id:
         print("ERROR: User does not exist")
     else:
         print(f"User ID: {result.user_id}")
@@ -150,10 +159,22 @@ def quit_program():
     '''
     Quits program
     '''
+    logging.info("user quit the program.")
     sys.exit()
 
 
 if __name__ == '__main__':
+    log_format = "%(asctime)s %(filename)s:%(lineno)-4d %(levelname)s %(message)s"
+    logger = logging.getLogger(__name__)
+    date = datetime.datetime.today().strftime('%m-%d-%Y')
+    filename = "log_" + date +  ".log"
+
+    logging.basicConfig(level=logging.DEBUG, 
+                        filename= filename,
+                        filemode='a',
+                        format = log_format)
+
+    logging.info("starting up code.")
     user_collection = main.init_user_collection()
     status_collection = main.init_status_collection()
     menu_options = {
@@ -189,6 +210,7 @@ if __name__ == '__main__':
 
                             Please enter your choice: """)
         if user_selection.upper() in menu_options:
-            menu_options[user_selection]()
+            menu_options[user_selection.upper()]()
         else:
             print("Invalid option")
+            logging.info("user inputted invalid option")
