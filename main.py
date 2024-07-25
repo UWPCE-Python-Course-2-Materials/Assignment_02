@@ -67,7 +67,9 @@ def check_path_valid(file):
     valid = False
     restricted_chars = ['/','?', '|', '\\',]
     if not file.endswith(".csv"):
+        logging.error("incorrect file type. returning false")
         print("Incorrect file type. Please input a path to a .csv file.")
+    # elif file.
     else:
         valid = True
     for item in restricted_chars:
@@ -91,15 +93,14 @@ def save_users(filename, user_collection: users.UserCollection):
     - Otherwise, it returns True.
     '''
     valid = check_path_valid(filename)
-    logging.info(f"check file validity returned {valid}")
+    logging.info("check file validity returned %s", valid)
     if valid is True:
         with open(filename, 'w',newline='',encoding='utf-8') as saved_users:
             write_csv = csv.writer(saved_users)
             write_csv.writerow(["USER_ID","EMAIL","NAME","LASTNAME"])
             for item in user_collection.database.values():
                 write_csv.writerow([item.user_id,item.email,item.user_name,item.user_last_name])
-        print(write_csv)
-    print(valid)
+    logging.info("users successfully saved into csv")
     return valid
 
 def load_status_updates(filename, status_collection:user_status.UserStatusCollection):
@@ -116,23 +117,20 @@ def load_status_updates(filename, status_collection:user_status.UserStatusCollec
     '''
     valid=True
     if not pathlib.Path(filename).resolve().is_file():
+        logging.error("file does not exist. returning false")
         valid = False
-    print("status collection is", status_collection)
     if valid is True:
         with open(filename, 'r', encoding='utf-8') as file:
             file_read = csv.reader(file)
             file_list = list(file_read)
-            print("file_list is", file_list)
             for row in file_list[1:]:
-                print("row is",row)
                 if '' in row:
                     valid = False
                     break
                 check_status_exists = search_status(row[0], status_collection)
-                print("row[0] is", check_status_exists.status_id)
                 if check_status_exists.status_id is None:
                     status_collection.add_status(*row)
-                print("status collection after is", status_collection.database)
+    logging.info("status successfully loaded")
     return valid
 
 
@@ -180,8 +178,8 @@ def update_user(user_id, email, user_name, user_last_name, user_collection: user
     Requirements:
     - Returns False if there any errors.
     - Otherwise, it returns True.
-    '''
-    print("here is user_collection",user_collection.database)
+    # '''
+    # print("here is user_collection",user_collection.database)
     return user_collection.modify_user(user_id,email,user_name,user_last_name)
 
 

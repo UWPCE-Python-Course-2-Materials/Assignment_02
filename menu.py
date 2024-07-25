@@ -2,34 +2,39 @@
 Provides a basic frontend
 '''
 import sys
-import main
 import logging
 import datetime
+import main
 
 
+#pylint: disable=E0606
 def load_users():
     '''
     Loads user accounts from a file
     '''
-    logger.info("initializing load_user")
-    filename = input('Enter filename of user file: ')
-    main.load_users(filename, user_collection)
+    logging.info("initializing load_user")
+    file = input('Enter filename of user file: ')
+    main.load_users(file, user_collection)
 
 
 def load_status_updates():
     '''
     Loads status updates from a file
     '''
-    logger.info("initializing load_status_updates")
-    filename = input('Enter filename for status file: ')
-    main.load_status_updates(filename, status_collection)
+    logging.info("initializing load_status_updates")
+    file_name = input('Enter filename for status file: ')
+    result = main.load_status_updates(file_name, status_collection)
+    if result is True:
+        print("Statuses added to collection successfully.")
+    else:
+        print("Error occurred. Please enter a valid file name.")
 
 
 def add_user():
     '''
     Adds a new user into the database
     '''
-    logger.info("initializing add_user")
+    logging.info("initializing add_user")
     user_id = input('User ID: ')
     email = input('User email: ')
     user_name = input('User name: ')
@@ -39,23 +44,23 @@ def add_user():
                          user_name,
                          user_last_name,
                          user_collection):
-        logger.warning("new user inputs not valid")
+        logging.warning("new user inputs not valid")
         print("An error occurred while trying to add new user")
     else:
-        logger.info("new user added successfully")
-        print("User was successfully added")
+        logging.info("new user added successfully")
+        print("User was successfully added", )
 
 
 def update_user():
     '''
     Updates information for an existing user
     '''
-    logger.info("initializing update_user")
+    logging.info("initializing update_user")
     user_id = input('User ID: ')
     email = input('User email: ')
     user_name = input('User name: ')
     user_last_name = input('User last name: ')
-    if not main.update_user(user_id, email, user_name, user_last_name):
+    if not main.update_user(user_id, email, user_name, user_last_name, user_collection):
         print("An error occurred while trying to update user")
     else:
         print("User was successfully updated")
@@ -65,7 +70,7 @@ def search_user():
     '''
     Searches a user in the database
     '''
-    logger.info("initializing search_user")
+    logging.info("initializing search_user")
     user_id = input('Enter user ID to search: ')
     result = main.search_user(user_id, user_collection)
     if not result.user_id:
@@ -92,8 +97,8 @@ def save_users():
     '''
     Saves user database into a file
     '''
-    filename = input('Enter filename for users file: ')
-    main.save_users(filename, user_collection)
+    file_name = input('Enter filename for users file: ')
+    main.save_users(file_name, user_collection)
 
 
 def add_status():
@@ -116,7 +121,7 @@ def update_status():
     user_id = input('User ID: ')
     status_id = input('Status ID: ')
     status_text = input('Status text: ')
-    if not main.add_status(user_id, status_id, status_text, status_collection):
+    if not main.update_status(status_id, user_id, status_text, status_collection):
         print("An error occurred while trying to update status")
     else:
         print("Status was successfully updated")
@@ -151,8 +156,8 @@ def save_status():
     '''
     Saves status database into a file
     '''
-    filename = input('Enter filename for status file: ')
-    main.save_status_updates(filename, status_collection)
+    file_name = input('Enter filename for status file: ')
+    main.save_status_updates(file_name, status_collection)
 
 
 def quit_program():
@@ -164,12 +169,13 @@ def quit_program():
 
 
 if __name__ == '__main__':
+    #pylint: disable=C0103
     log_format = "%(asctime)s %(filename)s:%(lineno)-4d %(levelname)s %(message)s"
     logger = logging.getLogger(__name__)
     date = datetime.datetime.today().strftime('%m-%d-%Y')
     filename = "log_" + date +  ".log"
 
-    logging.basicConfig(level=logging.DEBUG, 
+    logging.basicConfig(level=logging.DEBUG,
                         filename= filename,
                         filemode='a',
                         format = log_format)
