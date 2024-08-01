@@ -44,10 +44,14 @@ def load_users(filename, user_collection:users.UserCollection):
         valid = False
         logging.warning("false file path given. Valid returning false.")
         print('invalid file. Please try again.')
+        return valid is False
     if valid is True:
         with open(filename, 'r',encoding='utf-8') as file:
             file_read = csv.reader(file)
             file_list = list(file_read)
+            if len(file_list[0]) != 4:
+                logging.warning("invalid csv headers. please try again.")
+                return False
             for row in file_list[1:]:
                 if '' in row:
                     logging.warning("invalid empty fields. exiting function and returning false.")
@@ -76,7 +80,6 @@ def check_path_valid(file):
         if item in file:
             valid = False
             break
-    print('in check path valid test', valid)
     return valid
 
 
@@ -144,15 +147,12 @@ def save_status_updates(filename, status_collection:user_status.UserStatusCollec
     - Otherwise, it returns True.
     '''
     valid = check_path_valid(filename)
-    print("right after check path valid test",valid)
     if valid is True:
         with open(filename, 'w',newline='',encoding='utf-8') as saved_users:
             write_csv = csv.writer(saved_users)
             write_csv.writerow(["STATUS_ID","USER_ID","STATUS_TEXT"])
             for item in status_collection.database.values():
                 write_csv.writerow([item.status_id,item.user_id,item.status_text])
-        print('what is this',write_csv)
-    print(valid)
     return valid
 
 

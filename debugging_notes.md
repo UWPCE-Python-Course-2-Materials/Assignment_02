@@ -13,7 +13,7 @@
     * SOLN: added user_collection to update_user() parameters
 
 * ERR: TypeError: if wrong csv file is opened, user gets type error.
-    * SOLN: 
+    * SOLN: conditional statement added to give warning if csv file header does not fit required inputs
 
 * WARN: empty strings can also be added as users.
     *SOLN: added and logged a conditional statement that looks for empty strings in user input
