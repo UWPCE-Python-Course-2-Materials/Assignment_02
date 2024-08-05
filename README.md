@@ -20,27 +20,48 @@ You can use *PDB*, *Pysnooper* or any other debugging techniques you like.
 
 ## Testing ``menu.py`` ##
 
-1. Load the users database.
+1. Load the users database. 
+<!-- done -->
 1. Add a new user and confirm you get a success message.
+<!-- done -->
 1. Try to add the same user ID again and confirm you get an error message.
+<!-- done -->
 1. Update the name of an existing user.
+<!-- done -->
 1. Try to update the name of a non-existing user and confirm you get an error message.
+<!-- done -->
 1. Search for an existing user and return that user's email, name and last name.
+<!-- done -->
 1. Search for a non-existing user and return a message indicating that the user does not exist.
+<!-- done -->
 1. Delete an existing user.
+<!-- done -->
 1. Try to delete a non-existing user and confirm you get an error message.
+<!-- done -->
 1. Save the users database.
+<!-- done -->
 1. Load the status database.
+<!-- done -->
 1. Add a new status and confirm you get a success message.
+<!-- done -->
 1. Try to add the same status ID again and confirm you get an error message.
+<!-- done -->
 1. Update the text of an existing status ID.
+<!-- done -->
 1. Try to update the text of a non-existing status ID and confirm you get an error message.
+<!-- done -->
 1. Search for an existing status ID and return the ID of the user that created the status and the status text.
+<!-- done -->
 1. Search for a non-existing status ID and return a message indicating that the status ID does not exist.
+<!-- done -->
 1. Delete an existing status.
+<!-- done -->
 1. Try to delete a non-existing status and confirm you get an error message.
+<!-- done -->
 1. Save the status database.
+<!-- done -->
 1. Make sure menu options are case-insensitive (i.e., typing "a" or "A" works in the same way).
+<!-- done -->
 
 # Other requirements #
 
